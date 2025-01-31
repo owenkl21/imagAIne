@@ -40,10 +40,10 @@ const Signup = () => {
                 className="text-xs sm:text-sm md:text-md bg-transparent border-none p-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent hover:brightness-125"
                 variant={"link"}
               >
-                "Log in"
+                Log in
               </Button>
             </div>
-
+</div>
         <h2 className="text-xs sm:text-sm md:text-md text-center">
               By clicking, you agree to{" "}
               <Button
