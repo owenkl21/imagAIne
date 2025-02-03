@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useId, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { Loader2 } from "lucide-react";
+import { signup } from "@/app/actions/auth-actions";
+import { toast } from "sonner";
 
 
 const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
@@ -32,6 +34,8 @@ const formSchema = z
   });
 
 const SignUpForm = () => {
+  const [loading, setLoading] = useState(false);
+  const toastId = useId();
   // ✅ Initialize `useForm` correctly
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -44,8 +48,18 @@ const SignUpForm = () => {
   });
 
   // ✅ Correct `handleSubmit` function
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    toast.loading('Signing up...', {id: toastId} );
+    setLoading(true);
     console.log("Sign Up Data:", data);
+
+    const formData = new FormData();
+    formData.append('full_name', data.fullname)
+    formData.append("email", data.email)
+    formData.append("password", data.password)
+
+    ;(await signup(formData)).success
+    
     form.reset();
   };
 
@@ -113,8 +127,8 @@ const SignUpForm = () => {
         />
 
         {/* Submit Button */}
-        <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
-          {form.formState.isSubmitting ? "Submitting..." : "Sign Up"}
+        <Button type="submit" disabled={loading} className="w-full">
+          {loading ? <Loader2 className='mr-2 h-4 w-4 animate-spin'/> : 'Sign Up'} 
         </Button>
       </form>
     </Form>
