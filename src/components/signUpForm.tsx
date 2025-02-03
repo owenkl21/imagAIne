@@ -14,12 +14,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+
+
+const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+;
 // ✅ Define Zod schema
 const formSchema = z
   .object({
     fullname: z.string().min(2, "Full name is required"),
     email: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters long"),
+    password: z.string().min(8, "Password must be at least 8 characters long").regex(passwordValidationRegex, 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'),
     confirmPassword: z.string().min(8, "Confirm Password must match Password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -42,6 +46,7 @@ const SignUpForm = () => {
   // ✅ Correct `handleSubmit` function
   const onSubmit = async (data: any) => {
     console.log("Sign Up Data:", data);
+    form.reset();
   };
 
   return (
