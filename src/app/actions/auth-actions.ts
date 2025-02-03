@@ -6,4 +6,6 @@ interface AuthResponse{
     data: unknown | null;
 }
 
-export async function signup(formData: FormData): Promise<AuthResponse>
+export async function signup(formData: FormData): Promise<AuthResponse>{
+    const supabase = await create
+}
