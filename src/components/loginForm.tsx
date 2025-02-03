@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, {useState, useId} from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import {toast} from "sonner";
+import { Loader2 } from "lucide-react";
+import { login } from "@/app/actions/auth-actions";
+import { redirect } from "next/navigation";
 // ✅ Define Zod schema
 const formSchema = z
   .object({
@@ -24,6 +27,9 @@ const formSchema = z
   })
 
 const LoginForm = () => {
+
+  const [loading, setLoading] = useState(false);
+ const toastId = useId();
   const form = useForm({
      resolver: zodResolver(formSchema),
      defaultValues: {
@@ -34,9 +40,29 @@ const LoginForm = () => {
    });
  
    // ✅ Correct `handleSubmit` function
-   const onSubmit = async (data: any) => {
-     console.log("Sign Up Data:", data);
-   };
+   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    toast.loading('Signing up...', {id: toastId} );
+    setLoading(true);
+    console.log("Sign Up Data:", data);
+
+    const formData = new FormData();
+  
+    formData.append("email", data.email)
+    formData.append("password", data.password)
+
+    const {success,error} = await login(formData);
+    if (!success) {
+      form.reset();
+      toast.error(error, {id: toastId});
+      setLoading(false);
+    }else{
+      form.reset();
+      toast.success('logged in successfully!', {id: toastId});
+      setLoading(false);
+      redirect("/dashboard");
+      
+    }
+  };
  
    return (
      <Form {...form}>
@@ -76,8 +102,8 @@ const LoginForm = () => {
        
  
          {/* Submit Button */}
-         <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
-           {form.formState.isSubmitting ? "Logging In..." : "Login"}
+         <Button type="submit" disabled={loading} className="w-full">
+           {loading ? <Loader2 className="h-4 w-4 animate-spin"/> : "Login"}
          </Button>
        </form>
        

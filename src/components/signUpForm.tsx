@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { signup } from "@/app/actions/auth-actions";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
+
 
 
 const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
@@ -34,6 +36,7 @@ const formSchema = z
   });
 
 const SignUpForm = () => {
+  
   const [loading, setLoading] = useState(false);
   const toastId = useId();
   // ✅ Initialize `useForm` correctly
@@ -58,9 +61,19 @@ const SignUpForm = () => {
     formData.append("email", data.email)
     formData.append("password", data.password)
 
-    ;(await signup(formData)).success
+    const {success,error} = await signup(formData);
+    if (!success) {
+      form.reset();
+      toast.error(error, {id: toastId});
+      setLoading(false);
+    }else{
+      form.reset();
+      toast.success('Signed up successfully! \n Please confirm your email address. ', {id: toastId});
+      setLoading(false);
+      redirect("/login");
+    }
     
-    form.reset();
+    
   };
 
   return (
@@ -128,7 +141,7 @@ const SignUpForm = () => {
 
         {/* Submit Button */}
         <Button type="submit" disabled={loading} className="w-full">
-          {loading ? <Loader2 className='mr-2 h-4 w-4 animate-spin'/> : 'Sign Up'} 
+          {loading ? <Loader2 className=' h-4 w-4 animate-spin'/> : 'Sign Up'} 
         </Button>
       </form>
     </Form>

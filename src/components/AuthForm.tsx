@@ -8,7 +8,7 @@ import SignUpForm from "./signUpForm";
 import { Button } from "./ui/button";
 
 const Signup = () => {
-  const [mode, setMode] = useState("signup");
+  const [mode, setMode] = useState("login");
 
   return (
     <MagicCard className="flex flex-col px-6 sm:px-10 py-8 min-w-[350px] w-full sm:w-3/4 md:w-4/5 lg:w-3/4 xl:w-3/4  2xl:max-w-[500px] h-auto mb-5">
