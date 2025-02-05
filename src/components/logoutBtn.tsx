@@ -7,8 +7,8 @@ const LogoutBtn = () => {
         signOut();
     }
   return (
-    <span onClick={handleLogout}>
-      Logout Button
+    <span className='text-destructive' onClick={handleLogout}>
+      Logout
     </span>
   )
 }

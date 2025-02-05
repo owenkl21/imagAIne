@@ -17,7 +17,7 @@ const Logo = () => {
             className="text-primary-foreground font-sans text-3xl"
             colors={{ first: "#A07CFE", second: "#FE8FB5" }}
             sparklesCount={5}
-            text="imagAIne"
+            text="Imag{AI}ne"
           />
         </Link>
       </div>
