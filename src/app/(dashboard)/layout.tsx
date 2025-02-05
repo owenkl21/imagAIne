@@ -1,24 +1,28 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { DashboardHeader } from "@/components/DashboardHeader";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-
-export default function DashboardLayout({
+import { UserProvider } from "@/context/UserProvider";
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
+    <UserProvider>
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-      <div className='border border-red-500 flex flex-row'>
-      <SidebarTrigger className="ml-1" />
-      <div className='flex flex-col'>
-      <h1>This is the header</h1>
-      <h2>this is the description</h2>
-      </div>
-      </div>
-      <main className="flex flex-1 flex-col gap-4 p-4 pt0">{children}</main>
+        <div className="border border-red-500 flex flex-row items-center">
+          <SidebarTrigger className="m-1" />
+          <div className="flex flex-col m-1 items-center justify-center">
+            <DashboardHeader />
+          </div>
+        </div>
+        <main className="flex flex-1 flex-col gap-4 p-4 pt0">{children}</main>
       </SidebarInset>
     </SidebarProvider>
+    </UserProvider>
   );
 }

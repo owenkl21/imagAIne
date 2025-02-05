@@ -1,15 +1,4 @@
 "use client";
-
-import {
-  SquareTerminal,
-  Image,
-  Frame,
-  Layers,
-  Images,
-  CreditCard,
-  Settings2,
-} from "lucide-react";
-
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -20,52 +9,15 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { menuItems } from "@/constants/menuItems";
 
-// This is sample data.
-const data = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: SquareTerminal,
-  },
-  {
-    title: "Generate Image",
-    url: "/image-generation",
-    icon: Image,
-  },
-  {
-    title: "My Models",
-    url: "/models",
-    icon: Frame,
-  },
-  {
-    title: "Train Models",
-    url: "/model-training",
-    icon: Layers,
-  },
-  {
-    title: "My Images",
-    url: "/gallery",
-    icon: Images,
-  },
-  {
-    title: "Billing",
-    url: "/billing",
-    icon: CreditCard,
-  },
-  {
-    title: "Settings",
-    url: "/account-settings",
-    icon: Settings2,
-  },
-];
 export function NavMain() {
   const pathname = usePathname();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {data.map((item) => (
+        {menuItems.map((item) => (
           <Link
             href={item.url}
             key={item.title}
