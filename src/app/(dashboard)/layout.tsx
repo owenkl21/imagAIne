@@ -18,7 +18,7 @@ export default async function DashboardLayout({
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row w-fit items-center gap-2 my-4">
             <SidebarTrigger className="m-1 hover:bg-clip" />
             <Separator orientation="vertical" className="h-5 w-[1px] bg-gray-300" />
             <div className="flex flex-col m-1 items-center justify-center">
